@@ -22,14 +22,14 @@ class objects:
         return multi, fov, fov_h, aspect
 
     def valorant():
-        multi = 1
-        fov = 90
+        multi = 0.314285714
+        fov = math.radians(103)
         fov_h = True
         aspect = [16, 9]
 
         return multi, fov, fov_h, aspect
 
-    def quake_live():
+    def quake_champions():
         multi = 1
         fov = 0
         fov_h = True
@@ -38,7 +38,7 @@ class objects:
         return multi, fov, fov_h, aspect
 
     def EFT():
-        multi = 1
+        multi = 0.1760000
         fov = 0
         fov_h = False
         aspect = [16, 9]
@@ -46,7 +46,7 @@ class objects:
         return multi, fov, fov_h, aspect
 
     def r6():
-        multi = 1
+        multi = 3.8397238
         fov = 0
         fov_h = False
         aspect = [16, 9]
@@ -54,8 +54,11 @@ class objects:
         return multi, fov, fov_h, aspect
 
     def new_game():
-
-        return
+        multi = float(input("Game sensitivity multiplier:"))
+        fov = float(input("Game horizontal FOV:"))
+        fov_h = True
+        aspect = [16, 9]
+        return multi, fov, fov_h, aspect
 
 
 

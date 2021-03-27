@@ -47,13 +47,13 @@ class games:
             elif game == 1:
                 multi, fov, fov_h, aspect = objects.cod_1()
             elif game == 2:
-                multi, fov, fov_h, aspect = objects.EFT()
+                multi, fov, fov_h, aspect = objects.valorant()
             elif game == 3:
-                multi, fov, fov_h, aspect = objects.EFT()
+                multi, fov, fov_h, aspect = objects.quake_champions()
             elif game == 4:
                 multi, fov, fov_h, aspect = objects.EFT()
             elif game == 5:
-                multi, fov, fov_h, aspect = objects.EFT()
+                multi, fov, fov_h, aspect = objects.r6()
             else:
                 multi, fov, fov_h, aspect = objects.cs_go()
 
@@ -112,6 +112,9 @@ class games:
 
         games.fov_1 = fov_1
         games.fov_2 = fov_2
+
+        print(fov_1)
+        print(fov_2)
 
 
 
@@ -179,11 +182,12 @@ if __name__ == '__main__':
     games.default_aspect_1 = aspect
     games.aspect_ratio1 = aspect_ratio
 
+    # Ask sensitivity
     sensitivity = float(input("Sensitivity: "))
     games.sensitivity = sensitivity
     print("")
 
-
+    # Ask second game
     game = int(input("To game: "))
     multi, fov, fov_h, aspect, aspect_ratio = games.getting_info(game)
 
@@ -193,8 +197,10 @@ if __name__ == '__main__':
     games.default_aspect_2 = aspect
     games.aspect_ratio2 = aspect_ratio
 
+    # Engine multiplier
     games.multiplier = multi_2 / multi_1
 
+    # Fov / aspect ratio calculations
     games.calculation()
 
     # Calculating new sensitivity
