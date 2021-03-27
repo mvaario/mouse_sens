@@ -1,185 +1,201 @@
-# Same sensitivity different games
-# game multiplayers
+# Calculating same sensitivity to different games
 
 import math
-
+from objects import *
 
 class games:
 
     def __init__(self):
+        # Games
+        self.games = ['cs go', 'Cod 1', 'Valorant', 'Quake', 'Eft', 'R6']
 
-        self.cs_fov = 106.260205
-        self.cod_fov = 90
-        self.val_fov = 103
-        self.qua_fov = 106
-        self.r6_fov = 74
+        self.fov_1 = 0
+        self.fov_2 = 0
 
-        # sensitivity multiply
-        self.cs = 1
-        self.cod = 1
-        self.valo = 0.314285714
-        self.qua = 1
-        self.eft = 0.1760000
-        self.r6 = 3.8397238
+        self.default_aspect_1 = 0
+        self.default_aspect_2 = 0
 
-        self.game_1 = 0
-        self.game_2 = 0
-        self.sens = 0
+        self.fov_h1 = False
+        self.fov_h2 = False
 
-        self.new_sens = 0
-        self.new = 0
+        self.multiplier = 0
 
-        # eft changes (turning speed is not static)
-        self.eft_diff = 15
+        self.aspect_ratio1 = [0, 0]
+        self.aspect_ratio2 = [0, 0]
+
+        self.sensitivity = 0
+
 
     def print(self):
         print("")
         print("Choose games")
-        print("Cs Go = 1")
-        print("Cod = 2")
-        print("Valorant = 3")
-        print("Quake = 4")
-        print("EFT = 5")
-        print("R6 = 6")
-        print("Else = 7")
+        print("Cs Go = 0")
+        print("Cod = 1")
+        print("Valorant = 2")
+        print("Quake = 3")
+        print("EFT = 4")
+        print("R6 = 5")
+        print("Else = 6")
         print("")
 
         return
 
-    def ask(self):
+    def getting_info(self, game):
         try:
-            game_1 = float(input("From game: "))
-            game_2 = float(input("To game: "))
-            sens = float(input("Sensitivity = "))
+            if game == 0:
+                multi, fov, fov_h, aspect = objects.cs_go()
+            elif game == 1:
+                multi, fov, fov_h, aspect = objects.cod_1()
+            elif game == 2:
+                multi, fov, fov_h, aspect = objects.EFT()
+            elif game == 3:
+                multi, fov, fov_h, aspect = objects.EFT()
+            elif game == 4:
+                multi, fov, fov_h, aspect = objects.EFT()
+            elif game == 5:
+                multi, fov, fov_h, aspect = objects.EFT()
+            else:
+                multi, fov, fov_h, aspect = objects.cs_go()
+
+            # if game has FOV slider
+            if fov == 0:
+                fov = int(input(f'{games.games[game]} Field of view: '))
+
+            x = int(input("Aspect x: "))
+            y = int(input("Aspect y: "))
+
+            aspect_ratio = [x, y]
+
         except:
             print("Error")
+            quit()
 
-        games.game_1 = game_1
-        games.game_2 = game_2
-        games.sens = sens
-        return
+        return multi, fov, fov_h, aspect, aspect_ratio
 
-    def choice(self):
-        if games.game_1 == 1:
-            multi_1 = games.cs
-            fov_1 = games.cs_fov
-        elif games.game_1 == 2:
-            multi_1 = games.cod
-            fov_1 = games.cod_fov
-        elif games.game_1 == 3:
-            multi_1 = games.valo
-            fov_1 = games.val_fov
-        elif games.game_1 == 4:
-            multi_1 = games.qua
-            fov_1 = games.qua_fov
-        elif games.game_1 == 5:
-            multi_1 = games.eft
-            fov_1 = float(input("EFT fov: "))
-        elif games.game_1 == 6:
-            multi_1 = games.r6
-            fov_1 = games.r6_fov
+    def calculation(self):
+        fov_1 = games.fov_1
+        fov_2 = games.fov_2
+
+        # Changing game 1 vertical FOV to horizontal
+        if not games.fov_h1:
+            fov = games.fov_1
+            fov = math.radians(fov)
+
+            aspect_ratio = games.default_aspect_1
+            aspect_ratio = [aspect_ratio[1], aspect_ratio[0]]
+
+            fov_1 = games.fov_changer(fov, aspect_ratio)
+
+        # Changing game 2 vertical FOV to horizontal
+        if not games.fov_h2:
+            fov = games.fov_2
+            fov = math.radians(fov)
+
+            aspect_ratio = games.default_aspect_2
+            aspect_ratio = [aspect_ratio[1], aspect_ratio[0]]
+
+            fov_2 = games.fov_changer(fov, aspect_ratio)
+
+
+        # Actual horizontal FOV in game 1
+        if sum(games.aspect_ratio1) != sum(games.default_aspect_1):
+            fov_1 = games.fov_calculation(fov_1)
         else:
-            multi_1 = float(input("Game multiply "))
-            fov_1 = float(input("Game HFov "))
-
-        if games.game_2 == 1:
-            multi_2 = games.cs
-            fov_2 = games.cs_fov
-        elif games.game_2 == 2:
-            multi_2 = games.cod
-            fov_2 = games.cod_fov
-        elif games.game_2 == 3:
-            multi_2 = games.valo
-            fov_2 = games.val_fov
-        elif games.game_2 == 4:
-            multi_2 = games.qua
-            fov_2 = games.qua_fov
-        elif games.game_2 == 5:
-            multi_2 = games.eft
-            fov_2 = float(input("EFT fov: "))
-        elif games.game_2 == 6:
-            multi_2 = games.r6
-            fov_2 = games.r6_fov
+            fov_1 = math.degrees(fov_1)
 
 
+        # Actual horizontal FOV in game 2
+        if sum(games.aspect_ratio2) != sum(games.default_aspect_2):
+            fov_2 = games.fov_calculation(fov_2)
         else:
-            multi_2 = float(input("Game multiply "))
-            fov_2 = float(input("Game HFov "))
+            fov_2 = math.degrees(fov_2)
 
-        games.calculation(multi_1, multi_2, fov_1, fov_2)
+        games.fov_1 = fov_1
+        games.fov_2 = fov_2
+
+
 
         return
 
-    def calculation(self, multi_1, multi_2, fov_1, fov_2):
-        if games.game_1 == 5:
-            fov_1 = math.degrees(math.atan((8 / (4.5 / math.tan(math.radians(fov_1 / 2)))))) * 2
-            print("Escape from Tarkov Hfov", round(fov_1, 4))
+    def fov_calculation(self, fov):
+        # Calculating vertical FOV
+        aspect_ratio = games.default_aspect_1
+        fov_v = games.fov_changer(fov, aspect_ratio)
 
-        if games.game_2 == 5:
-            fov_2 = math.degrees(math.atan((8 / (4.5 / math.tan(math.radians(fov_2 / 2)))))) * 2
-            print("Escape from Tarkov Hfov", round(fov_2, 4))
+        # Calculating new horizontal FOV
+        x = games.aspect_ratio1[0]
+        y = games.aspect_ratio1[1]
 
-        multi = multi_2 / multi_1
+        c = y / math.tan(math.radians(fov_v) / 2)
 
-        f_1 = math.radians(fov_1)
-        f_2 = math.radians(fov_2)
+        fov_h = math.atan(x / c) * 2
+        fov_h = math.degrees(fov_h)
 
-        f_1 = f_1 / 2
-        f_2 = f_2 / 2
+        return fov_h
 
-        c1 = math.tan(f_1)
-        c2 = math.tan(f_2)
+    def fov_changer(self, fov, aspect_ratio):
+        # Calculating vertical FOV
+        x = aspect_ratio[0]
+        y = aspect_ratio[1]
 
-        c = c2 / c1
+        fov = math.atan(y / (x / math.tan(fov / 2))) * 2
+        fov = math.degrees(fov)
 
-        games.new_sens = c * games.sens * multi
+        return fov
 
-        if games.game_1 == 5 or games.game_2 == 5:
-            diff = games.eft_diff
+    def new_sensitivity(self):
+        multi = games.multiplier
+        fov_1 = games.fov_1 / 2
+        fov_2 = games.fov_2 / 2
+        sensitivity = games.sensitivity
 
-            diff = 1 + (diff / 100)
+        # Calculating fov difference
+        fov_1 = math.radians(fov_1)
+        fov_2 = math.radians(fov_2)
 
-            if games.game_1 == 5:
-                games.new = games.new_sens / (diff)
-            if games.game_2 == 5:
-                games.new = games.new_sens * (diff)
+        fov = math.tan(fov_2) / math.tan(fov_1)
+
+        new_sensitivity = multi * fov * sensitivity
 
         print("")
-        print("Fov difference", round(c, 5))
-        print("Multiplier", round(multi, 5))
-        print("")
+        print("FOV difference:", round(fov, 3))
+        print("Game engine multiplier difference:", round(multi, 3))
+        print("New sensitivity:", new_sensitivity)
 
         return
 
 
 if __name__ == '__main__':
-    t = ["Cs:go", "Cod.1", "Valorant", "Quake", "EFT", "R6"]
-    x = 0.905184
-    x = x * 600
-    x = x / 400
-    print(x)
-
     games = games()
+
+    # Ask games
     games.print()
+    game = int(input("From game: "))
+    multi, fov, fov_h, aspect, aspect_ratio = games.getting_info(game)
 
-    games.ask()
-    games.choice()
+    multi_1 = multi
+    games.fov_1 = fov
+    games.fov_h1 = fov_h
+    games.default_aspect_1 = aspect
+    games.aspect_ratio1 = aspect_ratio
 
-    try:
-        print("Sensitivity for", t[int(games.game_2 - 1)], ":", round(games.new_sens, 5))
-
-    except:
-        print("New sensitivity = ", round(games.new_sens, 5))
-
-    if games.new != 0:
-        print("")
-        print("Recommended tweaks +", games.eft_diff, "%")
-        print("Recommended sensitivty = ", round(games.new, 5))
-
+    sensitivity = float(input("Sensitivity: "))
+    games.sensitivity = sensitivity
     print("")
-    input("Press enter to close")
 
-    # cod    = 1.357776
-    # cs go  = 1.81037
-    # quake  = 1.80183
-    # eft    = 0.33578
+
+    game = int(input("To game: "))
+    multi, fov, fov_h, aspect, aspect_ratio = games.getting_info(game)
+
+    multi_2 = multi
+    games.fov_2 = fov
+    games.fov_h2 = fov_h
+    games.default_aspect_2 = aspect
+    games.aspect_ratio2 = aspect_ratio
+
+    games.multiplier = multi_2 / multi_1
+
+    games.calculation()
+
+    # Calculating new sensitivity
+    games.new_sensitivity()
