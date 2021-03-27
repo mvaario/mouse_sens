@@ -3,6 +3,7 @@
 
 import math
 
+
 class games:
 
     def __init__(self):
@@ -77,8 +78,6 @@ class games:
         elif games.game_1 == 6:
             multi_1 = games.r6
             fov_1 = games.r6_fov
-
-
         else:
             multi_1 = float(input("Game multiply "))
             fov_1 = float(input("Game HFov "))
@@ -120,7 +119,6 @@ class games:
             fov_2 = math.degrees(math.atan((8 / (4.5 / math.tan(math.radians(fov_2 / 2)))))) * 2
             print("Escape from Tarkov Hfov", round(fov_2, 4))
 
-
         multi = multi_2 / multi_1
 
         f_1 = math.radians(fov_1)
@@ -153,6 +151,7 @@ class games:
 
         return
 
+
 if __name__ == '__main__':
     t = ["Cs:go", "Cod.1", "Valorant", "Quake", "EFT", "R6"]
     x = 0.905184
@@ -166,20 +165,16 @@ if __name__ == '__main__':
     games.ask()
     games.choice()
 
-
-
     try:
-        print("Sensitivity for", t[int(games.game_2-1)], ":", round(games.new_sens, 5))
+        print("Sensitivity for", t[int(games.game_2 - 1)], ":", round(games.new_sens, 5))
 
     except:
         print("New sensitivity = ", round(games.new_sens, 5))
-
 
     if games.new != 0:
         print("")
         print("Recommended tweaks +", games.eft_diff, "%")
         print("Recommended sensitivty = ", round(games.new, 5))
-
 
     print("")
     input("Press enter to close")
