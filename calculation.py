@@ -99,7 +99,7 @@ class games:
         return h_fov
 
     # Calculating new sensitivity
-    def new_sensitivity(self):
+    def calculate_sensitivity(self):
         multi = games.multiplier
         fov_1 = games.fov_1 / 2
         fov_2 = games.fov_2 / 2
@@ -111,14 +111,28 @@ class games:
         fov = fov_2 / fov_1
 
         games.new_sensitivity = multi * fov * sensitivity
+        print("New sensitivity", games.new_sensitivity)
 
         return
 
-
-
     # game tweaks
-    def tweak_eft(self):
+    def tweak(self):
+        fov_1 = round(math.degrees(games.fov_1), 3)
+        fov_2 = round(math.degrees(games.fov_2), 3)
 
+        print(f'Actual horizontal FOV in {games.games[games.game_1]} {fov_1} degree')
+        print(f'Actual horizontal FOV in {games.games[games.game_2]} {fov_2} degree')
+
+        if games.game_1 == 4 or games.game_2 == 4:
+            print("EFT change turning speed")
+            # around -15% (probably)
+            if games.game_1 == 4:
+                sensitivity = games.new_sensitivity * 1.15
+            else:
+                sensitivity = games.new_sensitivity * 0.85
+
+            print("Recommended sensitivity", round(sensitivity, 5))
+            print("")
 
         return
 
@@ -134,7 +148,6 @@ if __name__ == '__main__':
     h_fov, multi = games.getting_info(game)
     multi_1 = multi
     games.fov_1 = h_fov
-
 
     # Ask sensitivity
     sensitivity = float(input("Sensitivity: "))
@@ -155,12 +168,11 @@ if __name__ == '__main__':
 
 
     # New sensitivity calculations
-    games.new_sensitivity()
+    games.calculate_sensitivity()
 
 
-    # Tweaks for eft
-    if games.game_1 == 5 or games.game_2 == 5:
-        games.tweak_eft()
+    # Tweaks
+    games.tweak()
 
 
 
