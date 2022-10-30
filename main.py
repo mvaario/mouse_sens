@@ -15,53 +15,57 @@ class main:
         print("Quake = 3")
         print("EFT = 4")
         print("R6 = 5")
-        print("Else = 6")
+        print("Overwatch 2 = 6")
+        print("Else = 7")
         print("")
 
         return
 
     # get game info
     def get_game_info(self, game):
-        try:
-            if game == 0:
-                multi, fov, fov_h, default_aspect = objects.cs_go()
-            elif game == 1:
-                multi, fov, fov_h, default_aspect = objects.cod_1()
-            elif game == 2:
-                multi, fov, fov_h, default_aspect = objects.valorant()
-            elif game == 3:
-                multi, fov, fov_h, default_aspect = objects.quake_champions()
-            elif game == 4:
-                multi, fov, fov_h, default_aspect = objects.EFT()
-            elif game == 5:
-                multi, fov, fov_h, default_aspect = objects.r6()
-            else:
-                multi, fov, fov_h, default_aspect = objects.cs_go()
+        # try:
+        if game == 0:
+            multi, fov, fov_h, default_aspect = objects.cs_go()
+        elif game == 1:
+            multi, fov, fov_h, default_aspect = objects.cod_1()
+        elif game == 2:
+            multi, fov, fov_h, default_aspect = objects.valorant()
+        elif game == 3:
+            multi, fov, fov_h, default_aspect = objects.quake_champions()
+        elif game == 4:
+            multi, fov, fov_h, default_aspect = objects.EFT()
+        elif game == 5:
+            multi, fov, fov_h, default_aspect = objects.r6()
+        elif game == 6:
+            multi, fov, fov_h, default_aspect = objects.overwatch()
+        else:
+            multi, fov, fov_h, default_aspect = objects.cs_go()
 
-            # if game has FOV slider
-            if fov == 0:
-                fov = int(input(f'{cal.games[game]} Field of view: '))
-                fov = math.radians(fov)
 
-            # if fov is horizontal change it to vertical
-            if fov_h:
-                v_fov = cal.fov_changer(fov, default_aspect)
-            else:
-                v_fov = fov
+        # if game has FOV slider
+        if fov == 0:
+            fov = int(input(f'{cal.games[game]} Field of view: '))
+            fov = math.radians(fov)
 
-            # ask the aspect ratio
-            used_aspect = main.get_aspect_ratio()
+        # if fov is horizontal change it to vertical
+        if fov_h:
+            v_fov = cal.fov_changer(fov, default_aspect)
+        else:
+            v_fov = fov
 
-        except:
-            print("Error")
-            quit()
+        # ask the aspect ratio
+        used_aspect = main.get_aspect_ratio()
+
+        # except:
+        #     print("Error")
+        #     quit()
 
         return multi, v_fov, used_aspect
 
     # get used aspect ratio
     def get_aspect_ratio(self):
-        y = int(input("Aspect ratio vertical: "))
         x = int(input("Aspect ratio horizontal: "))
+        y = int(input("Aspect ratio vertical: "))
 
         used_aspect = [x, y]
         return used_aspect

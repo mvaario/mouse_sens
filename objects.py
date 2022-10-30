@@ -1,5 +1,5 @@
 # Games objects
-# Fov 0 = game has slider for FOV
+# Fov == 0 = game has slider for FOV
 # fov_h = if fov is horizontal
 # Aspect ratio = FOV aspect ratio
 import math
@@ -10,7 +10,6 @@ class objects:
         fov = math.radians(90)
         fov_h = True
         default_aspect = [4, 3]
-
         return multi, fov, fov_h, default_aspect
 
     def cod_1():
@@ -53,10 +52,23 @@ class objects:
 
         return multi, fov, fov_h, default_aspect
 
+    def overwatch():
+        multi = 3.3333333
+        fov = 0
+        fov_h = True
+        default_aspect = [16, 9]
+
+        return multi, fov, fov_h, default_aspect
+
     def new_game():
         multi = float(input("Game sensitivity multiplier:"))
-        fov = float(input("Game horizontal FOV:"))
+        # if horizontal FOV
+        fov = float(input("Game horizontal FOV, 0 if vertical:"))
         fov_h = True
+        if fov == 0:
+            fov = float(input("Game vertical FOV:"))
+            fov_h = False
+
         default_aspect = [16, 9]
         return multi, fov, fov_h, default_aspect
 

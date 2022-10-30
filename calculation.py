@@ -6,7 +6,7 @@ from objects import *
 class calculations:
     def __init__(self):
         # Games
-        self.games = ['cs go', 'Cod 1', 'Valorant', 'Quake', 'Eft', 'R6']
+        self.games = ['cs go', 'Cod 1', 'Valorant', 'Quake', 'Eft', 'R6', 'Overwatch 2']
         self.game_1 = 0
         self.game_2 = 0
 
